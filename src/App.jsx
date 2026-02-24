@@ -75,9 +75,9 @@ export const App = () => {
     fetchMovies(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     loadTrendMovies();
-  }, []);
+  }, []);*/
 
   return (
     <main>
