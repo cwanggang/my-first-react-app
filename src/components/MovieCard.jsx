@@ -1,8 +1,40 @@
 import React from "react";
 
 const MovieCard = ({
-  movie: { title, vote_average, poster_path, release_date, original_language },
+  movie: {
+    id,
+    title,
+    vote_average,
+    poster_path,
+    release_date,
+    original_language,
+  },
 }) => {
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    const likedMovies = JSON.parse(localStorage.getItem("likedMovies")) || [];
+    if (likedMovies.includes(id)) {
+      setLiked(true);
+    }
+  }, [id]);
+
+  const toggleLike = () => {
+    const likedMovies = JSON.parse(localStorage.getItem("likedMovies")) || [];
+
+    let updatedLikes;
+
+    if (likedMovies.includes(id)) {
+      updatedLikes = likedMovies.filter((movieID) => movieID !== id);
+      setLiked(false);
+    } else {
+      updatedLikes = [...likedMovies, id];
+      setLiked(true);
+    }
+
+    localStorage.setItem("likedMovies", JSON.stringify(updatedLikes));
+  };
+
   return (
     <div className="movie-card">
       <img
@@ -30,6 +62,9 @@ const MovieCard = ({
           <p className="year">
             {release_date ? release_date.split("-")[0] : "N/A"}
           </p>
+
+          <span>•</span>
+          <button onClick={toggleLike}>{liked ? "❤️" : "🤍"}</button>
         </div>
       </div>
     </div>
